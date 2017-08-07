@@ -1,4 +1,4 @@
-owner = 0xf760ff38b957f8380c308c2e65e060af99ab4c85
+owner = 0xD5A6f8eDB1C8Fff02B6272AB779C7Ae8F20C8CB7
 if msg.sender == owner:
     amount = msg.data[0]
     addr = msg.data[1]
