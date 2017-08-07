@@ -1,0 +1,2 @@
+# CryptoSocio
+Decentralized reputation system
