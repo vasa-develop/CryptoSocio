@@ -1,0 +1,47 @@
+owner = 0xD5A6f8eDB1C8Fff02B6272AB779C7Ae8F20C8CB7
+if msg.sender == owner:
+
+    if msg.datasize == 3: //tag
+        root = msg.data[0] // this root has already been validated in root.se
+        if !contract.storage[root]:
+            contract.storage[root] = 0 //ntags
+        ntags = contract.storage[root] 
+        tag = msg.data[1]
+        mode = msg.data[2] // 10 to tag, 50 to check for tag, 1 or 0 to vote
+        i = 0
+        tagnum = 0
+        while i < ntags and tagnum == 0: // if tag already exists, stop
+            i = i + 1
+            if contract.storage[root + 3*i] == tag:
+                tagnum = i
+
+        if mode == 10: //new tag
+            if !(tagnum == 0):
+                return(0) //tried to add new tag, but already exists!
+            ntags = ntags + 1
+            contract.storage[root] = ntags
+            contract.storage[root + 3*ntags] = tag
+            contract.storage[root + 3*ntags+1] = 0
+            contract.storage[root + 3*ntags+2] = 0
+            return(ntags)
+
+        elif mode == 50: // check tag (get vote state too)
+            if tagnum == 0:
+                return([tagnum])
+            else:
+                upvotes = contact.storage[root + 3*tagnum + 1]
+                downvotes = contact.storage[root + 3*tagnum + 2]
+                return([tagnum, upvotes, downvotes]) // if 0, it didnt find the tag
+        else: // vote on tag
+            if tagnum == 0:
+                stop
+            vote = mode
+            if vote == 1:
+                contract.storage[root + (3*tagnum + 1)] = contract.storage[root + (3*tagnum + 1)] + 1
+            else
+                contract.storage[root + (3*tagnum + 2)] = contract.storage[root + (3*tagnum + 2)] + 1
+            upvotes = contract.storage[root + 3*tagnum +1]
+            downvotes = contract.storage[root + 3*tagnum +2]
+            return([1, upvotes, downvotes])
+else:
+    return(1954)
